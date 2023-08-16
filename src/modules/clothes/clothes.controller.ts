@@ -9,15 +9,15 @@ import {
 } from '@nestjs/common';
 import { ClothesService } from '../../services/clothes/clothes.service';
 import { CreateClothesDto } from './dto/create-clothes.dto';
-import { UpdateClothesDto } from './dto/update-clothe.dto';
+import { UpdateClothesDto } from './dto/update-clothes.dto';
 
 @Controller('clothes')
 export class ClothesController {
   constructor(private readonly clothesService: ClothesService) {}
 
   @Post()
-  create(@Body() createClotheDto: CreateClothesDto) {
-    return this.clothesService.create(createClotheDto);
+  create(@Body() createClothesDto: CreateClothesDto) {
+    return this.clothesService.create(createClothesDto);
   }
 
   @Get()

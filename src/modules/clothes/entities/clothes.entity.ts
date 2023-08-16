@@ -11,7 +11,7 @@ export class Clothes {
   @Column()
   name: string;
 
-  @Column()
+  @Column({ type: 'float' })
   price: number;
 
   @Column()

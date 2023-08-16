@@ -1,31 +1,44 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { ClothesRepository } from 'src/modules/clothes/clothes.repository';
 import { CreateClothesDto } from 'src/modules/clothes/dto/create-clothes.dto';
-import { UpdateClothesDto } from 'src/modules/clothes/dto/update-clothe.dto';
+import { UpdateClothesDto } from 'src/modules/clothes/dto/update-clothes.dto';
 import { Clothes } from 'src/modules/clothes/entities/clothes.entity';
-import { Repository } from 'typeorm';
 
 @Injectable()
 export class ClothesService {
   constructor(
     @InjectRepository(Clothes)
-    private clothesRepository: Repository<Clothes>,
+    private clothesRepository: ClothesRepository,
   ) {}
 
-  create(createClothesDto: CreateClothesDto) {
-    return this.clothesRepository.create(createClothesDto);
+  create(createClothesDto: CreateClothesDto): Promise<Clothes> {
+    const toBeCreated = this.clothesRepository.create(createClothesDto);
+    return this.clothesRepository.save(toBeCreated);
   }
 
   findAll(): Promise<Clothes[]> {
     return this.clothesRepository.find();
   }
 
-  findOne(id: number): Promise<Clothes | null> {
-    return this.clothesRepository.findOneBy({ id });
+  async findOne(id: number): Promise<Clothes | null> {
+    const found = await this.clothesRepository.findOneBy({ id });
+
+    if (!found) {
+      throw new NotFoundException(
+        `Could not find ${Clothes.name} with id: ${id}`,
+      );
+    }
+
+    return found;
   }
 
-  update(id: number, updateClothesDto: UpdateClothesDto) {
-    return this.clothesRepository.update({ id }, updateClothesDto);
+  async update(
+    id: number,
+    updateClothesDto: UpdateClothesDto,
+  ): Promise<Clothes> {
+    await this.findOne(id);
+    return this.clothesRepository.save({ id, ...updateClothesDto });
   }
 
   async remove(id: number): Promise<Clothes> {
