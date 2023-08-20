@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Patch,
   Post,
 } from '@nestjs/common';
@@ -27,17 +28,20 @@ export class ClothesController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.clothesService.findOne(+id);
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.clothesService.findOne({ id });
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateClotheDto: UpdateClothesDto) {
-    return this.clothesService.update(+id, updateClotheDto);
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateClotheDto: UpdateClothesDto,
+  ) {
+    return this.clothesService.update({ id }, updateClotheDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.clothesService.remove(+id);
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.clothesService.remove({ id });
   }
 }

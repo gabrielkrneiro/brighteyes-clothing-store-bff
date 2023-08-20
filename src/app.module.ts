@@ -4,6 +4,7 @@ import { SqliteConnectionOptions } from 'typeorm/driver/sqlite/SqliteConnectionO
 
 import { ClothesModule } from './modules/clothes/clothes.module';
 import { ClothesStatusModule } from './modules/clothes_status/clothes_status.module';
+import { CustomerModule } from './modules/customer/customer.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
@@ -19,6 +20,7 @@ const config: SqliteConnectionOptions = {
     TypeOrmModule.forRoot({ ...config, autoLoadEntities: true }),
     ClothesModule,
     ClothesStatusModule,
+    CustomerModule,
   ],
   controllers: [AppController],
   providers: [AppService],
