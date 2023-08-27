@@ -7,6 +7,7 @@ import { ClothesStatusModule } from './modules/clothes_status/clothes_status.mod
 import { CustomerModule } from './modules/customer/customer.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { EmployeeStatusModule } from './modules/employee-status/employee-status.module';
 
 const config: SqliteConnectionOptions = {
   type: 'sqlite',
@@ -21,6 +22,7 @@ const config: SqliteConnectionOptions = {
     ClothesModule,
     ClothesStatusModule,
     CustomerModule,
+    EmployeeStatusModule,
   ],
   controllers: [AppController],
   providers: [AppService],
