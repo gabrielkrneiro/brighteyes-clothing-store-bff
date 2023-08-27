@@ -1,6 +1,5 @@
+import { CustomerStatusEnum } from 'src/modules/customer-status/customer.enum';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-
-import { CustomerStatus } from '../customer.enum';
 
 @Entity()
 export class Customer {
@@ -19,6 +18,6 @@ export class Customer {
   @Column()
   birthdate: Date;
 
-  @Column({ enum: CustomerStatus })
+  @Column({ enum: CustomerStatusEnum })
   status: number;
 }
