@@ -30,8 +30,8 @@ export abstract class AbstractService<
     findOptions: FindOptionsWhere<Ent>,
     updateClothesDto: UpdateDTO,
   ): Promise<Ent> {
-    await this.findOne(findOptions);
-    return this.entityRepository.save({ ...updateClothesDto });
+    const toBeUpdated = await this.findOne(findOptions);
+    return this.entityRepository.save({ ...toBeUpdated, ...updateClothesDto });
   }
 
   async remove(findOptions: FindOptionsWhere<Ent>): Promise<Ent> {
