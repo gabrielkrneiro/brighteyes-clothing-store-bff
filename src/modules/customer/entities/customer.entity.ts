@@ -1,5 +1,13 @@
-import { CustomerStatusEnum } from 'src/modules/customer-status/customer.enum';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { CustomerStatus } from 'src/modules/customer-status/entities/customer-status.entity';
+import { ShoppingCart } from 'src/modules/shopping-cart/entities/shopping-cart.entity';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class Customer {
@@ -18,6 +26,12 @@ export class Customer {
   @Column()
   birthdate: Date;
 
-  @Column({ enum: CustomerStatusEnum })
-  status: number;
+  @ManyToOne(() => CustomerStatus, (customerStatus) => customerStatus.id, {
+    eager: true,
+  })
+  @JoinTable()
+  status: CustomerStatus;
+
+  @OneToMany(() => ShoppingCart, (shoppingCart) => shoppingCart.id)
+  shoppingCarts?: ShoppingCart[];
 }
